@@ -1,5 +1,5 @@
 all: pong.c
-	gcc -g -o pong -lSDL2
+	gcc -g -o pong pong.c -lSDL2
 
 clean: 
 	rm pong
