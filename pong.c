@@ -10,7 +10,6 @@
 void clear(SDL_Renderer *renderer){
 		SDL_SetRenderDrawColor(renderer,PINK);
 		SDL_RenderClear(renderer);
-		SDL_RenderPresent(renderer);
 }
 		
 void draw(SDL_Renderer *renderer, SDL_Rect *rect){
@@ -83,20 +82,28 @@ int main(){
 						if(event.type == SDL_KEYDOWN){
 								switch(event.key.keysym.scancode){
 										case SDL_SCANCODE_UP:
+												my_rect.y -= 10;
+												break;
+										case SDL_SCANCODE_DOWN:
 												my_rect.y += 10;
-										case SDL_SCANCODE_UP:
-												my_rect.y += 10;
-										case SDL_SCANCODE_UP:
-												my_rect.y += 10;
-										case SDL_SCANCODE_UP:
-												my_rect.y += 10;
+												break;
+										case SDL_SCANCODE_LEFT:
+												my_rect.x -= 10;
+												break;
+										case SDL_SCANCODE_RIGHT:
+												my_rect.x += 10;
+												break;
+										case SDL_SCANCODE_Q:
+												quit = 1;
+												break;
 								}
 						}
-
+						clear(my_renderer);
+						draw(my_renderer, &my_rect);
 				}
 		}
 
-		SDL_Delay(5000);
+		//SDL_Delay(5000);
 		
 
 		SDL_DestroyRenderer(my_renderer);
