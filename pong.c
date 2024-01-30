@@ -1,8 +1,23 @@
 #define SDL_INITS SDL_INIT_TIMER|| \
 		SDL_INIT_VIDEO
 
+#define PINK 200,120,120,120
+#define WHITE 255,255,255,120
+
 #include<SDL2/SDL.h>
 #include<stdio.h>
+
+void clear(SDL_Renderer *renderer){
+		SDL_SetRenderDrawColor(renderer,PINK);
+		SDL_RenderClear(renderer);
+		SDL_RenderPresent(renderer);
+}
+		
+void draw(SDL_Renderer *renderer, SDL_Rect *rect){
+		SDL_SetRenderDrawColor(renderer,WHITE);
+		SDL_RenderFillRect(renderer,rect);
+		SDL_RenderPresent(renderer);
+}
 
 int main(){
 		Uint32 ret = 0;
@@ -31,7 +46,6 @@ int main(){
 		}
 
 		index = -1;
-		//flags = SDL_RENDERER_SOFTWARE;
 		flags = 0;
 		my_renderer = SDL_CreateRenderer(my_window, index, flags);
 		if(!my_renderer){
@@ -42,7 +56,7 @@ int main(){
 				exit(EXIT_FAILURE);
 		}
 		
-		ret = SDL_SetRenderDrawColor(my_renderer,200,120,120,120);
+		ret = SDL_SetRenderDrawColor(my_renderer,PINK);
 		if(ret < 0){
 				perror("Drawind renderer draw color");	
 				SDL_DestroyWindow(my_window);
@@ -50,14 +64,20 @@ int main(){
 				SDL_Quit();
 				exit(EXIT_FAILURE);
 		}
-		SDL_RenderClear(my_renderer);
-		SDL_RenderPresent(my_renderer);
 
-		printf("Shaaa dude\n");
+		SDL_RenderClear(my_renderer);
+
+		SDL_Rect my_rect;
+		my_rect.x = 150;
+		my_rect.y = 250;
+		my_rect.w = 250;
+		my_rect.h = 50;
+
+		SDL_SetRenderDrawColor(my_renderer,WHITE);
+		draw(my_renderer,&my_rect);
+
 		SDL_Delay(5000);
-		//timmer = SDL_GetTicks() + 1000;
-		//while(!SDL_TICKS_PASSED(SDL_GetTicks(),timmer));
-		printf("Shaaa\n");
+		
 
 		SDL_DestroyRenderer(my_renderer);
 
