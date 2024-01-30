@@ -34,8 +34,7 @@ int main(){
 	}
 
 	my_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED,\
-		SDL_WINDOWPOS_CENTERED,0,0,\
-		SDL_WINDOW_FULLSCREEN || \
+		SDL_WINDOWPOS_CENTERED,900,900,\
 		SDL_WINDOW_ALLOW_HIGHDPI);
 	if(!my_window){
 		perror("Creating window");	
@@ -66,14 +65,21 @@ int main(){
 
 	SDL_RenderClear(my_renderer);
 
-	SDL_Rect my_rect;
-	my_rect.x = 150;
-	my_rect.y = 250;
-	my_rect.w = 5;
-	my_rect.h = 25;
+	SDL_Rect left_paddle;
+	left_paddle.x = 100;
+	left_paddle.y = 450;
+	left_paddle.w = 5;
+	left_paddle.h = 25;
+
+	SDL_Rect right_paddle;
+	right_paddle.x = 800;
+	right_paddle.y = 450;
+	right_paddle.w = 5;
+	right_paddle.h = 25;
 
 	SDL_SetRenderDrawColor(my_renderer,WHITE);
-	draw(my_renderer,&my_rect);
+	draw(my_renderer,&left_paddle);
+	draw(my_renderer,&right_paddle);
 	
 	int quit = 0;
 	while(!quit){
@@ -82,16 +88,16 @@ int main(){
 			if(event.type == SDL_KEYDOWN){
 				switch(event.key.keysym.scancode){
 					case SDL_SCANCODE_UP:
-						my_rect.y -= 10;
+						left_paddle.y -= 10;
 						break;
 					case SDL_SCANCODE_DOWN:
-						my_rect.y += 10;
+						left_paddle.y += 10;
 						break;
-					case SDL_SCANCODE_LEFT:
-						my_rect.x -= 10;
+					case SDL_SCANCODE_E:
+						right_paddle.y -= 10;
 						break;
-					case SDL_SCANCODE_RIGHT:
-						my_rect.x += 10;
+					case SDL_SCANCODE_D:
+						right_paddle.y += 10;
 						break;
 					case SDL_SCANCODE_Q:
 						quit = 1;
@@ -99,7 +105,8 @@ int main(){
 				}
 			}
 			clear(my_renderer);
-			draw(my_renderer, &my_rect);
+			draw(my_renderer, &left_paddle);
+			draw(my_renderer,&right_paddle);
 		}
 	}
 
