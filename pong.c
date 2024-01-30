@@ -75,6 +75,26 @@ int main(){
 
 		SDL_SetRenderDrawColor(my_renderer,WHITE);
 		draw(my_renderer,&my_rect);
+		
+		int quit = 0;
+		while(!quit){
+				SDL_Event event;
+				while(SDL_PollEvent(&event)){
+						if(event.type == SDL_KEYDOWN){
+								switch(event.key.keysym.scancode){
+										case SDL_SCANCODE_UP:
+												my_rect.y += 10;
+										case SDL_SCANCODE_UP:
+												my_rect.y += 10;
+										case SDL_SCANCODE_UP:
+												my_rect.y += 10;
+										case SDL_SCANCODE_UP:
+												my_rect.y += 10;
+								}
+						}
+
+				}
+		}
 
 		SDL_Delay(5000);
 		
