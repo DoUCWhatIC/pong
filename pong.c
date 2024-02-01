@@ -7,6 +7,7 @@
 
 #include<SDL2/SDL.h>
 #include<stdio.h>
+#include<stdlib.h>
 
 void clear(SDL_Renderer *renderer){
 	SDL_SetRenderDrawColor(renderer,PINK);
@@ -16,7 +17,6 @@ void clear(SDL_Renderer *renderer){
 void draw(SDL_Renderer *renderer, SDL_Rect *rect){
 	SDL_SetRenderDrawColor(renderer,WHITE);
 	SDL_RenderFillRect(renderer,rect);
-	SDL_RenderPresent(renderer);
 }
 
 int main(){
@@ -97,6 +97,8 @@ int main(){
 	
 	int quit = 0;
 	vel_x = 1;
+	vel_y = 1;
+	//vel_y = 10;
 
 	time_out = SDL_GetTicks() + DELTA_T;
 	while(!quit){
@@ -127,27 +129,25 @@ int main(){
 			draw(my_renderer, &ball);
 			draw(my_renderer, &left_paddle);
 			draw(my_renderer,&right_paddle);
+			SDL_RenderPresent(my_renderer);
 		}
 		//updating ball's velocity
 		if(SDL_TICKS_PASSED(SDL_GetTicks(),time_out)){
-			//update position
-			//ball.x += vel_x * DELTA_T * SCALE_FACTOR
-			//ball.y += vel_y * DELTA_T * SCALE_FACTOR
 
 			//check to see if we hit the ceiling or floor
-			if(ball.y == 0 || ball.y == 900){
-				
+			if(ball.y == 0 || ball.y == 899){
+				vel_y *= -1;
 			}
 
 			//check to see if we hit a wall
-			if(ball.x == 0 || ball.x == 900){
+			if(ball.x == 0 || ball.x == 899){
 				//GAMEOVER!
 				quit = 1;
 			}
 
 			//check to see if we hit a paddle
 			//hit left paddle?
-			if(ball.x == 103 && (left_paddle.y < (ball.y + 12) ||\
+			if(ball.x == 103 && (left_paddle.y < (ball.y + 12) &&\
 				left_paddle.y > (ball.y - 12))){
 				vel_x = 1;
 			}
@@ -160,6 +160,8 @@ int main(){
 
 			//update vel, if need be
 			ball.x += vel_x;
+			ball.y += vel_y;
+			
 			time_out = SDL_GetTicks() + DELTA_T;
 		}
 	}
