@@ -1,5 +1,6 @@
-#define SDL_INITS SDL_INIT_TIMER|| \
+#define SDL_INITS SDL_INIT_TIMER | \
 		SDL_INIT_VIDEO
+#define DELTA_T 500
 
 #define PINK 200,120,120,120
 #define WHITE 255,255,255,120
@@ -26,6 +27,10 @@ int main(){
 	SDL_Renderer *my_renderer = NULL;
 	int index;
 	Uint32 flags = 0;
+
+	Uint32 time_out = 0;
+	Uint32 vel_x = 0;
+	Uint32 vel_y = 0;
 
 	ret = SDL_Init(SDL_INITS);
 	if(ret < 0){
@@ -65,6 +70,7 @@ int main(){
 
 	SDL_RenderClear(my_renderer);
 
+	//making the object in the scene
 	SDL_Rect left_paddle;
 	left_paddle.x = 100;
 	left_paddle.y = 450;
@@ -77,14 +83,25 @@ int main(){
 	right_paddle.w = 5;
 	right_paddle.h = 25;
 
+	SDL_Rect ball;
+	ball.x = 450;
+	ball.y = 450;
+	ball.w = 5;
+	ball.h = 5;
+
+	//drawing the objects
 	SDL_SetRenderDrawColor(my_renderer,WHITE);
 	draw(my_renderer,&left_paddle);
 	draw(my_renderer,&right_paddle);
+	draw(my_renderer,&ball);
 	
 	int quit = 0;
+
+	time_out = SDL_GetTicks() + DELTA_T;
 	while(!quit){
 		SDL_Event event;
 		while(SDL_PollEvent(&event)){
+			//getting players inputs
 			if(event.type == SDL_KEYDOWN){
 				switch(event.key.keysym.scancode){
 					case SDL_SCANCODE_UP:
@@ -104,13 +121,24 @@ int main(){
 						break;
 				}
 			}
+			//drawing the stuff
 			clear(my_renderer);
+			draw(my_renderer, &ball);
 			draw(my_renderer, &left_paddle);
 			draw(my_renderer,&right_paddle);
+		}
+		//updating ball's velocity
+		if(SDL_TICKS_PASSED(SDL_GetTicks(),time_out)){
+			//check to see if we hit the ceiling or floor
+			//check to see if we hit a wall
+			//check to see if we hit a paddle
+			ball.x += 5;
+			time_out = SDL_GetTicks() + DELTA_T;
 		}
 	}
 
 
+	//cleaning up
 	SDL_DestroyRenderer(my_renderer);
 	SDL_DestroyWindow(my_window);
 
