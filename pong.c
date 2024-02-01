@@ -1,6 +1,6 @@
 #define SDL_INITS SDL_INIT_TIMER | \
 		SDL_INIT_VIDEO
-#define DELTA_T 500
+#define DELTA_T 10
 
 #define PINK 200,120,120,120
 #define WHITE 255,255,255,120
@@ -29,8 +29,8 @@ int main(){
 	Uint32 flags = 0;
 
 	Uint32 time_out = 0;
-	Uint32 vel_x = 0;
-	Uint32 vel_y = 0;
+	int vel_x = 0;
+	int vel_y = 0;
 
 	ret = SDL_Init(SDL_INITS);
 	if(ret < 0){
@@ -96,6 +96,7 @@ int main(){
 	draw(my_renderer,&ball);
 	
 	int quit = 0;
+	vel_x = 1;
 
 	time_out = SDL_GetTicks() + DELTA_T;
 	while(!quit){
@@ -129,10 +130,36 @@ int main(){
 		}
 		//updating ball's velocity
 		if(SDL_TICKS_PASSED(SDL_GetTicks(),time_out)){
+			//update position
+			//ball.x += vel_x * DELTA_T * SCALE_FACTOR
+			//ball.y += vel_y * DELTA_T * SCALE_FACTOR
+
 			//check to see if we hit the ceiling or floor
+			if(ball.y == 0 || ball.y == 900){
+				
+			}
+
 			//check to see if we hit a wall
+			if(ball.x == 0 || ball.x == 900){
+				//GAMEOVER!
+				quit = 1;
+			}
+
 			//check to see if we hit a paddle
-			ball.x += 5;
+			//hit left paddle?
+			if(ball.x == 103 && (left_paddle.y < (ball.y + 12) ||\
+				left_paddle.y > (ball.y - 12))){
+				vel_x = 1;
+			}
+
+			//hit right paddle?
+			else if(ball.x == 797 && (right_paddle.y < (ball.y + 12) &&\
+					right_paddle.y > (ball.y - 12))){
+				vel_x = -1;
+			} 
+
+			//update vel, if need be
+			ball.x += vel_x;
 			time_out = SDL_GetTicks() + DELTA_T;
 		}
 	}
