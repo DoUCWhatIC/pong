@@ -124,12 +124,6 @@ int main(){
 						break;
 				}
 			}
-			//drawing the stuff
-			clear(my_renderer);
-			draw(my_renderer, &ball);
-			draw(my_renderer, &left_paddle);
-			draw(my_renderer,&right_paddle);
-			SDL_RenderPresent(my_renderer);
 		}
 		//updating ball's velocity
 		if(SDL_TICKS_PASSED(SDL_GetTicks(),time_out)){
@@ -161,6 +155,13 @@ int main(){
 			//update vel, if need be
 			ball.x += vel_x;
 			ball.y += vel_y;
+			
+			//drawing the stuff
+			clear(my_renderer);
+			draw(my_renderer, &ball);
+			draw(my_renderer, &left_paddle);
+			draw(my_renderer,&right_paddle);
+			SDL_RenderPresent(my_renderer);
 			
 			time_out = SDL_GetTicks() + DELTA_T;
 		}
